@@ -20,11 +20,11 @@ function reducer(state, action) {
 }
 
 const initialState = {
-  activeThread: '1-fca2',
+  activeThreadId: '1-fca2',
   threads: [
     {
       id: '1-fca2',
-      title: 'Buzz Aldrin'
+      title: 'Buzz Aldrin',
       messages: [
         {
           text: 'Twelve minutes to ignition.',
@@ -48,12 +48,14 @@ const App = React.createClass({
     store.subscribe(() => this.forceUpdate());
   },
   render: function () {
-    const messages = store.getState().messages;
+    const state = store.getState();
+    const activeThreadId = state.activeThreadId;
+    const threads = state.threads;
+    const activeThread = threads.find((t) => t.id === activeThreadId);
 
     return (
       <div className='ui segment'>
-        <MessageView messages={messages} />
-        <MessageInput />
+        <Thread thread={activeThread} />
       </div>
     );
   },
@@ -87,7 +89,7 @@ const MessageInput = React.createClass({
   },
 });
 
-const MessageView = React.createClass({
+const Thread = React.createClass({
   handleClick: function (id) {
     store.dispatch({
       type: 'DELETE_MESSAGE',
@@ -95,7 +97,7 @@ const MessageView = React.createClass({
     });
   },
   render: function () {
-    const messages = this.props.messages.map((message, index) => (
+    const messages = this.props.thread.messages.map((message, index) => (
       <div
         className='comment'
         key={index}
@@ -116,6 +118,7 @@ const MessageView = React.createClass({
         <div className='ui comments'>
           {messages}
         </div>
+        <MessageInput />
       </div>
     );
   },
