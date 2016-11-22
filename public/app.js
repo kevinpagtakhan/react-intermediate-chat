@@ -53,12 +53,39 @@ const App = React.createClass({
     const threads = state.threads;
     const activeThread = threads.find((t) => t.id === activeThreadId);
 
+    const tabs = threads.map(t => (
+      {
+        title: t.title,
+        active: t.id === activeThreadId
+      }
+    ));
+
     return (
       <div className='ui segment'>
+        <ThreadTabs tabs={tabs} />
         <Thread thread={activeThread} />
       </div>
     );
   },
+});
+
+const ThreadTabs = React.createClass({
+  render: function(){
+    const tabs = this.props.tabs.map((tab, index) => (
+      <div
+        key={index}
+        className={tab.active ?'active item' : 'item'}
+      >
+        {tab.title}
+      </div>
+    ));
+
+    return (
+      <div className='ui top attached tabular menu'>
+        {tabs}
+      </div>
+    );
+  }
 });
 
 const MessageInput = React.createClass({
