@@ -1,25 +1,3 @@
-function createStore(reducer, initialState) {
-  let state = initialState;
-  const listeners = [];
-
-  const subscribe = (listener) => (
-    listeners.push(listener)
-  );
-
-  const getState = () => (state);
-
-  const dispatch = (action) => {
-    state = reducer(state, action);
-    listeners.forEach(l => l());
-  };
-
-  return {
-    subscribe,
-    getState,
-    dispatch,
-  };
-}
-
 function reducer(state, action) {
   if (action.type === 'ADD_MESSAGE') {
     return {
@@ -41,7 +19,7 @@ function reducer(state, action) {
 
 const initialState = { messages: [] };
 
-const store = createStore(reducer, initialState);
+const store = Redux.createStore(reducer, initialState);
 
 const App = React.createClass({
   componentDidMount: function () {
