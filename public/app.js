@@ -1,4 +1,19 @@
 function reducer(state, action) {
+  return {
+    activeThreadId: activeThreadReducer(state.activeThreadId, action),
+    threads: threadsReducer(state.threads, action)
+  };
+}
+
+function activeThreadReducer(state, action) {
+  if (action.tyle === 'OPEN_THREAD') {
+    return action.id;
+  } else {
+    return state;
+  }
+}
+
+function threadsReducer(state, action) {
   if (action.type === 'ADD_MESSAGE') {
     const newMessage = {
       text: action.text,
