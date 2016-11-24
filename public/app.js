@@ -40,6 +40,11 @@ function reducer(state, action) {
         ...state.threads.slice(threadIndex + 1, state.threads.length)
       ]
     }
+  } else if (action.type === 'OPEN_THREAD') {
+    return {
+      ...state,
+      activeThreadId: action.id
+    }
   } else {
     return state;
   }
