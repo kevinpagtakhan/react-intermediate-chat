@@ -15,11 +15,31 @@ function reducer(state, action) {
       ...state.threads.slice(threadIndex + 1, state.threads.length),
     ]});
   } else if (action.type === 'DELETE_MESSAGE') {
-    return {
-      messages: state.messages.filter((message) => {
-        return action.id != message.id;
-      })
+    const threadIndex = state.threads.findIndex(
+      (t) => t.messages.find((m) => (
+        m.id == action.id
+      ))
+    );
+    const oldThread = state.threads[threadIndex];
+    const messageIndex = oldThread.messages.findIndex(
+      (m) => m.id == action.id
+    );
+    const messages = [
+      ...oldThread.messages.slice(0, messageIndex),
+      ...oldThread.messages.slice(messageIndex + 1, oldThread.messages.length)
+    ];
+    const newThread = {
+      ...oldThread,
+      messages: messages
     };
+    return {
+      ...state,
+      threads: [
+        ...state.threads.slice(0, threadIndex),
+        newThread,
+        ...state.threads.slice(threadIndex + 1, state.threads.length)
+      ]
+    }
   } else {
     return state;
   }
