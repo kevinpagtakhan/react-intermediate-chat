@@ -92,7 +92,6 @@ const App = React.createClass({
     const state = store.getState();
     const activeThreadId = state.activeThreadId;
     const threads = state.threads;
-    console.log(threads);
     const activeThread = threads.find((t) => t.id === activeThreadId);
 
     const tabs = threads.map(t => (
